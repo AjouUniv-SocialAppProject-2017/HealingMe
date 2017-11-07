@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "1001517843006",
+    "firebase_url": "https://social-app-programming.firebaseio.com",
+    "project_id": "social-app-programming",
+    "storage_bucket": "social-app-programming.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001517843006:android:6bb32d54f0a0fad7",
+        "android_client_info": {
+          "package_name": "cc.foxtail.healingchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1001517843006-4s7at1pv2n3piml23e9702kpavs11917.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSt_VwMN0_P-Zpk0BRXkuSlkZgp0jdVxI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001517843006:android:c9ab769a9c79a48d",
+        "android_client_info": {
+          "package_name": "kr.ac.ajou.healingme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1001517843006-4s7at1pv2n3piml23e9702kpavs11917.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSt_VwMN0_P-Zpk0BRXkuSlkZgp0jdVxI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

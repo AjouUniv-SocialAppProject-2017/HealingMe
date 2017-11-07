@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/signin_email_edit_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/signin_password_edit_layout"
+        android:layout_marginTop="20dp">
+
+        <EditText
+            android:id="@+id/signin_email_edit"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:hint="이메일"
+            android:text="1234@gmail.com"
+            android:inputType="textEmailAddress"
+            android:maxLines="1" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/signin_password_edit_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signin_email_edit_layout"
+        android:layout_centerInParent="true"
+        android:hint="비밀번호">
+
+        <EditText
+            android:id="@+id/signin_password_edit"
+            android:layout_width="250dp"
+            android:text="123456"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <Button
+        android:id="@+id/signin_button"
+        style="@style/Base.Widget.AppCompat.Button.Colored"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signin_password_edit_layout"
+        android:layout_centerInParent="true"
+        android:text="로그인" />
+
+    <Button
+        android:id="@+id/want_signup_button"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signin_button"
+        android:layout_centerInParent="true"
+        android:background="@null"
+        android:text="아직 회원이 아니신가요?\n회원가입"
+        android:textColor="@color/gray"
+        android:textSize="13dp" />
+
+    <ProgressBar
+        android:id="@+id/signin_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/want_signup_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:visibility="invisible" />
+
+
+</RelativeLayout>
