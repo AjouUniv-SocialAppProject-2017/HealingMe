@@ -1,4 +1,4 @@
-package cc.foxtail.healingchat;
+package kr.ac.ajou.healingme;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +16,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private RelativeLayout layout;
     private ProgressBar progressBar;
     private EditText emailEdit;
     private EditText passwordEdit;
@@ -36,7 +35,6 @@ public class LoginActivity extends AppCompatActivity {
 //            finish();
 //        }
 
-        layout = (RelativeLayout) findViewById(R.id.layout);
         progressBar = (ProgressBar) findViewById(R.id.signin_progress_bar);
         emailEdit = (EditText) findViewById(R.id.signin_email_edit);
         passwordEdit = (EditText) findViewById(R.id.signin_password_edit);
@@ -68,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess() {
                         progressBar.setVisibility(View.GONE);
-                        Intent intent = new Intent(LoginActivity.this, ChatActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
                     }

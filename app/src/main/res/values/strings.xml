@@ -1,3 +1,33 @@
 <resources>
-    <string name="app_name">Healing Me</string>
+    <string name="app_name">Healing me</string>
+    <string name="action_logout">로그아웃</string>
+    <string name="action_customservice">고객센터</string>
+
+    <string name="action_search">Search</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <string name="nav_item_recommend">오늘의 추천</string>
+    <string name="nav_item_letters">나에게 쓰는 편지</string>
+    <string name="nav_item_counsel">고민 상담</string>
+    <string name="nav_item_hobby">너와 나의 취미</string>
+    <string name="nav_item_draw">그림판</string>
+
+    <!-- navigation drawer item labels  -->
+    <string-array name="nav_drawer_labels">
+        <item>@string/nav_item_recommend</item>
+        <item>@string/nav_item_letters</item>
+        <item>@string/nav_item_counsel</item>
+        <item>@string/nav_item_hobby</item>
+        <item>@string/nav_item_draw</item>
+
+    </string-array>
+
+    <string name="title_recommend">오늘의 추천</string>
+    <string name="title_letters">나에게 쓰는 편지</string>
+    <string name="title_counsel">익명 고민 상담</string>
+    <string name="title_hobby">너와 나의 취미</string>
+    <string name="title_draw">그림판</string>
+    <string name="title_getletter">나에게서 편지가 왔어요</string>
+    <string name="title_customservice">고객센터</string>
 </resources>

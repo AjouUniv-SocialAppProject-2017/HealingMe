@@ -1,4 +1,4 @@
-package cc.foxtail.healingchat;
+package kr.ac.ajou.healingme;
 
 public interface OnLoginCompleteListener {
     void onSuccess();
