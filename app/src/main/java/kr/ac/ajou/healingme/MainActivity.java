@@ -102,7 +102,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
                 title = getString(R.string.title_letters);
                 break;
             case 2:
-//                fragment = new ChatFragment();
+                fragment = new ChatListFragment();
                 title = getString(R.string.title_counsel);
                 break;
             case 3:
