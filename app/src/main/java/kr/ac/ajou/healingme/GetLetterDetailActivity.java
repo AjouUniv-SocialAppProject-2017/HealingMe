@@ -2,7 +2,7 @@ package kr.ac.ajou.healingme;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.Objects;
 
-public class GetLetterDetailActivity extends ActionBarActivity {
+public class GetLetterDetailActivity extends AppCompatActivity {
     private String msg, color, key;
     private int year, month, date, point;
     private View rootView;

@@ -8,6 +8,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,17 +19,21 @@ import java.util.Locale;
  * Created by janghanna on 2017. 11. 7..
  */
 
-class Posting {
+class Posting implements Serializable{
+    String id;
+    String category;
     String title;
     final String userId;
     String timestamp;
     String content;
 
     public Posting() {
-        this("", "", "", "");
+        this("", "","", "", "", "");
     }
 
-    public Posting (String userId, String title, String content, String timestamp) {
+    public Posting (String id, String category, String userId, String title, String content, String timestamp) {
+        this.id = id;
+        this.category = category;
         this.userId = userId;
         this.title = title;
         this.content = content;
@@ -41,8 +46,32 @@ class Posting {
         return dateFormat.format(date);
     }
 
-    public static Posting newPosting(String userId, String title, String content) {
-        return new Posting(userId, title, content, timestamp());
+    public static Posting newPosting(String id, String category, String userId, String title, String content) {
+        return new Posting(id, category, userId, title, content, timestamp());
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public String getContent() {
+        return content;
     }
 }
 
@@ -95,12 +124,10 @@ public class PostingModel {
 
     }
 
-
     public void writePostings(String category, String title, String content) {
         DatabaseReference childRef = postingRef.child(category).push();
-        childRef.setValue(Posting.newPosting(umodel.getUserId(), title, content));
+        childRef.setValue(Posting.newPosting(childRef.getKey(), category, umodel.getUserId(), title, content));
     }
-
 
     public String getTitle(int position) {
         return postings.get(position).title;

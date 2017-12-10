@@ -5,9 +5,12 @@
 
     <ImageView
         android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/category_image"/>
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/defaultimage"
+        android:id="@+id/category_image"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="5dp"/>
 
     <TextView
         android:layout_gravity="center"
