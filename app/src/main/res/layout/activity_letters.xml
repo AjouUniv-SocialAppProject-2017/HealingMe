@@ -18,7 +18,9 @@
             android:layout_height="wrap_content" />
 
         <ScrollView
-            android:layout_margin="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="350dp">
             <EditText
@@ -26,7 +28,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="top"
-                android:maxLength="300"
                 android:background="@drawable/color"
                 />
         </ScrollView>
@@ -38,6 +39,7 @@
             android:weightSum="7"
             android:orientation="horizontal"
             android:layout_gravity="center"
+            android:layout_marginTop="10dp"
             android:layout_below="@+id/editText">
             <Button
                 android:layout_weight="1"
@@ -84,6 +86,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/orange"/>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="35dp"
@@ -105,10 +108,10 @@
                 android:layout_height="30dp"
                 />
         </LinearLayout>
-
         <Button
             android:id="@+id/btn_send"
             android:text="보내기"
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"

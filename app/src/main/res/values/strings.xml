@@ -28,6 +28,7 @@
     <string name="title_counsel">익명 고민 상담</string>
     <string name="title_hobby">너와 나의 취미</string>
     <string name="title_draw">그림판</string>
-    <string name="title_getletter">나에게서 편지가 왔어요</string>
+    <string name="title_getletter">나만의 우체통</string>
+    <string name="title_getletterdetails">나에게서 편지가 왔어요</string>
     <string name="title_customservice">고객센터</string>
 </resources>

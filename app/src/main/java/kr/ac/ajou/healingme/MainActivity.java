@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity implements FragmentDrawer.FragmentDrawerListener {
     private static String TAG = MainActivity.class.getSimpleName();
@@ -26,7 +25,6 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         Intent notifyIntent = getIntent();
         String extras = getIntent().getStringExtra("KEY");
         if (extras != null && extras.equals("YOUR VAL")) {
-            Toast.makeText(getApplicationContext(), "들어감?", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, GetLetterActivity.class);
         }
 
@@ -34,6 +32,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(mToolbar);
+      //  getSupportActionBar().setCustomView(R.layout.abs_layout);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         drawerFragment = (FragmentDrawer)
@@ -76,7 +75,8 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         }
 
         if (id == R.id.action_search) {
-            Toast.makeText(getApplicationContext(), "Search action is selected!", Toast.LENGTH_SHORT).show();
+           Intent intent=new Intent(getApplicationContext(),GetLetterActivity.class);
+           startActivity(intent);
             return true;
         }
 
@@ -98,7 +98,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
                 title = getString(R.string.title_recommend);
                 break;
             case 1:
-                fragment = new LetterActivity();
+                fragment = new LetterFragment();
                 title = getString(R.string.title_letters);
                 break;
             case 2:
@@ -121,6 +121,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.container_body, fragment);
+            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
             getSupportActionBar().setTitle(title);

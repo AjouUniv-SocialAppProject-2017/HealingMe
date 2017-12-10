@@ -15,9 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme">
-        <activity android:name=".SplashActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme">
+        <activity
+            android:name=".SplashActivity"
+            android:configChanges="keyboardHidden|orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,12 +27,15 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".SignUpActivity" />
+        <activity android:name=".GetLetterActivity" />
+        <activity android:name=".GetLetterDetailActivity" />
 
         <receiver android:name=".BroadcastD" />
 
-        <activity android:name=".GetLetterActivity" />
-        <activity android:name=".CustomServiceActivity"></activity>
-    </application>
+        <activity
+            android:name=".PopupActivity"
+            android:theme="@android:style/Theme.Dialog" />
 
+    </application>
 
 </manifest>

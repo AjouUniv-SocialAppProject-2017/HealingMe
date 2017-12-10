@@ -1,131 +1,160 @@
 package kr.ac.ajou.healingme;
 
-import android.app.AlarmManager;
-import android.app.NotificationManager;
-import android.content.Context;
-import android.icu.util.GregorianCalendar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.iid.FirebaseInstanceId;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 public class GetLetterActivity extends ActionBarActivity {
-    private TextView Text,dateTxt;
-    private Button button;
-    private String userName,fcmToken,msg,color,id;
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = firebaseDatabase.getReference();
 
-    private NotificationManager mNotification;
-    private AlarmManager mManager;
-    private GregorianCalendar mCalendar;
-    private TextView letter;
-    private int date,month,year;
+    private LetterModel letterModel;
+    public static RecyclerView recyclerView;
+    private Button backBtn;
+    private View rootView;
+    private List<LettersData> lettersDataList = new ArrayList<>();
+    private int id;
     private Toolbar mToolbar;
-
+    private OnLetterChangedListener onLetterChangedListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_letter);
-
-
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         String title= getString(R.string.title_getletter);
-        getSupportActionBar().setTitle(title);
+        getSupportActionBar().setTitle("");
+        backBtn = (Button) findViewById(R.id.backbtn);
 
-
-        Text=(TextView)findViewById(R.id.get_message);
-        userName = "user" + new Random().nextInt(10000);
-        fcmToken= FirebaseInstanceId.getInstance().getToken();
-        letter=(TextView)findViewById(R.id.get_message);
-
-        dateTxt=(TextView)findViewById(R.id.date);
-
-        mNotification = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-        mManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        mCalendar = new GregorianCalendar();
-
-
-        Bring();
-
-
-    }
-
-    private void Bring() {
-
-        Bundle extras = getIntent().getExtras();
-        id = String.valueOf(extras.getInt("notificationId"));
-
-        databaseReference.child("message").child(id).addChildEventListener(new ChildEventListener() {
+        backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                LetterData letterData=dataSnapshot.getValue(LetterData.class);
-                Toast.makeText(getApplicationContext(),id,Toast.LENGTH_LONG).show();
-                msg = letterData.getLetter();
-                color = letterData.getColor();
-
-                year=letterData.getYear();
-                month=letterData.getMonth();
-                date=letterData.getDate();
-
-                colorchange();
-
-                Text.setText(msg);
-                dateTxt.setText(year+"/"+month+"/"+date);
-            }
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
+            public void onClick(View view) {
+                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
 
-    }
 
-    private void colorchange(){
-        if(Objects.equals(color, "blue")){
-            letter.setBackgroundResource(R.drawable.blueletter);
-        }else if(Objects.equals(color, "green")){
-            letter.setBackgroundResource(R.drawable.greenletter);
-        }else if(Objects.equals(color, "orange")){
-            letter.setBackgroundResource(R.drawable.orangeletter);
-        }else if(Objects.equals(color, "yellow")){
-            letter.setBackgroundResource(R.drawable.yellowletter);
-        }else if(Objects.equals(color, "red")){
-            letter.setBackgroundResource(R.drawable.redletter);
-        }else if(Objects.equals(color, "purple")){
-            letter.setBackgroundResource(R.drawable.purpleletter);
-        }else{
-            letter.setBackgroundResource(R.drawable.basicletter);
+        Intent intent = getIntent();
+        if (intent != null) {
+            // extract the extra-data in the Notification
+            id = intent.getIntExtra("notificationId", 0);
+            Log.e("들어갔니", id + "");
+        }
+        recyclerView = (RecyclerView) findViewById(R.id.recycleview);
+
+        letterModel = new LetterModel();
+
+
+        //recyclerview
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
+            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
+            recyclerView.setLayoutManager(layoutManager);
+
+            if (Objects.equals(id,LetterModel.daydiffLetterModel)) {
+                Log.e("편지받아라",id+"");
+                Log.e("편지받았니",LetterModel.daydiffLetterModel+")");
+                recyclerView.setAdapter(new RecyclerView.Adapter<LetterHolder>() {
+                    @Override
+                    public LetterHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+                        View view = layoutInflater.inflate(R.layout.letter_listview_custom, parent, false);
+                        return new LetterHolder(view);
+                    }
+
+                    @Override
+                    public void onBindViewHolder(LetterHolder holder, final int position) {
+                        Log.e("lettersDataList", lettersDataList.get(position) + "");
+                        holder.setText(lettersDataList.get(position));
+                        holder.itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(GetLetterActivity.this, GetLetterDetailActivity.class);
+
+                                Bundle args = new Bundle();
+                                String msg = lettersDataList.get(position).getMessage();
+                                String key = lettersDataList.get(position).getKey();
+                                int year = lettersDataList.get(position).getYear();
+                                int month = lettersDataList.get(position).getMonth();
+                                int date = lettersDataList.get(position).getDate();
+
+                                String color = lettersDataList.get(position).getColor();
+
+                  /*      args.putString("msg", msg);
+                        args.putString("key",key);
+                        args.putString("color",color);
+                        args.putInt("year",year);
+                        args.putInt("month",month);
+                        args.putInt("date",date);*/
+                                intent.putExtra("msg", msg);
+                                intent.putExtra("key", key);
+                                intent.putExtra("color", color);
+                                intent.putExtra("year", year);
+                                intent.putExtra("month", month);
+                                intent.putExtra("date", date);
+                                // intent.putExtras(args);
+
+                                Log.e("msg", intent.toString());
+                                startActivity(intent);
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public int getItemCount() {
+                        return lettersDataList.size();
+                    }
+
+
+                });
+
+                letterModel.setOnLetterChangedListener(new OnLetterChangedListener() {
+                    @Override
+                    public void onDataChanged(List<LettersData> items) {
+                        lettersDataList = items;
+                        recyclerView.getAdapter().notifyDataSetChanged();
+                    }
+                });
+            }
         }
     }
+
+class LetterHolder extends RecyclerView.ViewHolder {
+    private ImageView letter_image;
+    private TextView letter_name;
+    private TextView letter_date;
+
+    public LetterHolder(View itemView) {
+        super(itemView);
+        letter_image = (ImageView) itemView.findViewById(R.id.iv_img);
+        letter_name = (TextView) itemView.findViewById(R.id.nameTxt);
+        letter_date = (TextView) itemView.findViewById(R.id.dateTxt);
+    }
+
+    public void setText(LettersData lettersData) {
+        Log.e("letterMsg", lettersData.getMessage());
+        letter_image.setImageResource(R.drawable.postbox);
+        letter_name.setText(lettersData.getMessage());
+        letter_date.setText(lettersData.getYear() + "/" + lettersData.getMonth() + "/" + lettersData.getDate());
+
+    }
 }
+
