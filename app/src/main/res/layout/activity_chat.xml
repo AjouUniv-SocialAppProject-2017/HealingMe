@@ -19,7 +19,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Message">
+            android:hint="고민을 입력하세요">
 
             <EditText
                 android:id="@+id/chat_edit"

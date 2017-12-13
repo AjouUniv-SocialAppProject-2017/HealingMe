@@ -56,6 +56,11 @@ public class ChatFragment extends Fragment {
         cmodel = new ChatModel(chatGroupName);
         umodel = new UserModel();
 
+        AlertDialog.Builder ad = new AlertDialog.Builder(rootView.getContext());
+        ad.setTitle("주의");
+        ad.setMessage("나쁜말 금지!");
+        ad.show();
+
         final EditText chatEdit = (EditText) rootView.findViewById(R.id.chat_edit);
 
         Button chatButton = (Button) rootView.findViewById(R.id.chat_button);
