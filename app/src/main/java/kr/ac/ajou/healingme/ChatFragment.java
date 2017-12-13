@@ -12,12 +12,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -37,6 +39,7 @@ public class ChatFragment extends Fragment {
     String chatGroupName;
 
     private ChatModel cmodel;
+    private UserModel umodel;
     private Uri currentImageUri;
 
     @Override
@@ -51,6 +54,7 @@ public class ChatFragment extends Fragment {
 
         chatGroupName = getArguments().getString("chat_group");
         cmodel = new ChatModel(chatGroupName);
+        umodel = new UserModel();
 
         final EditText chatEdit = (EditText) rootView.findViewById(R.id.chat_edit);
 
@@ -119,7 +123,12 @@ public class ChatFragment extends Fragment {
                 String user = cmodel.getUserId(position);
                 String message = cmodel.getMessage(position);
                 String timestamp = cmodel.getTimestamp(position);
-                holder.setText(user, message, timestamp);
+
+                if (umodel.getUserId().equals(cmodel.getUserId(position))) {
+                    holder.setTextRight(user, message, timestamp);
+                } else {
+                    holder.setText(user, message, timestamp);
+                }
 
                 String imageUrl = cmodel.getImageURL(position);
                 holder.setImage(imageUrl);
@@ -164,7 +173,7 @@ public class ChatFragment extends Fragment {
         private TextView textView;
         private ImageView imageView;
         private TextView timestampView;
-
+        private LinearLayout layout;
 
         public ChatHolder(View itemView) {
             super(itemView);
@@ -173,11 +182,24 @@ public class ChatFragment extends Fragment {
             textView = (TextView) itemView.findViewById(R.id.chat_text_view);
             imageView = (ImageView) itemView.findViewById(R.id.chat_image_view);
             timestampView = (TextView) itemView.findViewById(R.id.chat_timestamp_view);
+            layout = itemView.findViewById(R.id.chat_item_layout);
         }
 
         public void setText(String user, String text, String timestamp) {
+            layout.setGravity(Gravity.LEFT);
+
             userView.setText(user);
             textView.setText(text);
+            textView.setBackground(getContext().getResources().getDrawable(R.drawable.bg_msg_from));
+            timestampView.setText(timestamp);
+        }
+
+        public void setTextRight(String user, String text, String timestamp) {
+            layout.setGravity(Gravity.RIGHT);
+
+            userView.setText(user);
+            textView.setText(text);
+            textView.setBackground(getContext().getResources().getDrawable(R.drawable.bg_msg_to));
             timestampView.setText(timestamp);
         }
 
