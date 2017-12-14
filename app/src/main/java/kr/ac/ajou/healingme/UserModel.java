@@ -119,4 +119,8 @@ public class UserModel {
     public String getUserId() {
         return userId;
     }
+
+    public String getUserKey() {
+        return userKey;
+    }
 }
