@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cc.foxtail.healingchat.PostingInfoActivity">
+    tools:context="cc.foxtail.healingchat.PostingInfoActivity"
+    android:id="@+id/posting_info_layout">
 
     <TextView
         android:id="@+id/posting_user_text"

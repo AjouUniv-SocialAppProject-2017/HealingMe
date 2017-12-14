@@ -63,6 +63,7 @@ class Chat {
 public class ChatModel {
     private DatabaseReference chatRef;
     private List<Chat> chats = new ArrayList<>();
+    private List<String> users = new ArrayList<>();
     private OnDataChangedListener onDataChangedListener;
 
     private StorageReference storageReference;
@@ -82,7 +83,7 @@ public class ChatModel {
         userKey = user.getUid();
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReferenceFromUrl("gs://social-app-programming.appspot.com").child("images");
+        storageReference = storage.getReferenceFromUrl("gs://social-app-programming.appspot.com").child("chatImages");
 
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -91,14 +92,17 @@ public class ChatModel {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<Chat> newChats = new ArrayList<Chat>();
+
                 Iterable<DataSnapshot> children = dataSnapshot.getChildren();
 
                 for (DataSnapshot e : children) {
                     Chat chat = e.getValue(Chat.class);
                     newChats.add(chat);
+
                 }
 
                 chats = newChats;
+
                 if (onDataChangedListener != null) {
                     onDataChangedListener.onDataChanged();
                 }
@@ -132,7 +136,7 @@ public class ChatModel {
 
     public void sendMessage(String group, String message) {
         DatabaseReference childRef = chatRef.child(group).push();
-        childRef.setValue(Chat.newChat(umodel.getUserId(),message));
+        childRef.setValue(Chat.newChat(umodel.getUserId(), message));
     }
 
     public void sendMessageWithImage(String group, String message, String imageUrl) {
@@ -159,6 +163,18 @@ public class ChatModel {
     public String getUserId(int position) {
         return chats.get(position).userId;
     }
+
+//    public int getUsersNum() {
+//        return users.size();
+//    }
+//
+//    public String getUserList() {
+//        String userList = "";
+//        for (int i = 0; i < users.size(); i++) {
+//            userList.concat(users.get(i) + " ");
+//        }
+//        return userList;
+//    }
 
 
 }

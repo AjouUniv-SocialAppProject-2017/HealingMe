@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -160,6 +162,17 @@ public class CategoryFragment extends Fragment {
             public void onDataChanged(List<Category> newcategories) {
                 categories = newcategories;
                 categoryRecyclerView.getAdapter().notifyDataSetChanged();
+            }
+        });
+
+        Button searchButton = rootView.findViewById(R.id.search_posting_button);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity().getBaseContext(), SearchActivity.class);
+                System.out.println("eeeeeeee"+categories.size());
+                intent.putParcelableArrayListExtra("categorylist", (ArrayList<? extends Parcelable>) categories);
+                startActivity(intent);
             }
         });
 

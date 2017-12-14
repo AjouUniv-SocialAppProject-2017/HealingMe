@@ -1,5 +1,6 @@
 package kr.ac.ajou.healingme;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -7,7 +8,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.InputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,25 +24,36 @@ import java.util.Locale;
  * Created by janghanna on 2017. 11. 7..
  */
 
-class Posting implements Serializable{
+class Posting implements Serializable {
     String id;
     String category;
     String title;
     final String userId;
     String timestamp;
     String content;
+    String imageURL;
 
     public Posting() {
-        this("", "","", "", "", "");
+        this("", "", "", "", "", "", "");
     }
 
-    public Posting (String id, String category, String userId, String title, String content, String timestamp) {
+    public Posting(String id, String category, String userId, String title, String content, String timestamp) {
         this.id = id;
         this.category = category;
         this.userId = userId;
         this.title = title;
         this.content = content;
         this.timestamp = timestamp;
+    }
+
+    public Posting(String id, String category, String userId, String title, String content, String timestamp, String imageURL) {
+        this.id = id;
+        this.category = category;
+        this.userId = userId;
+        this.title = title;
+        this.content = content;
+        this.timestamp = timestamp;
+        this.imageURL = imageURL;
     }
 
     private static String timestamp() {
@@ -48,6 +64,10 @@ class Posting implements Serializable{
 
     public static Posting newPosting(String id, String category, String userId, String title, String content) {
         return new Posting(id, category, userId, title, content, timestamp());
+    }
+
+    public static Posting newPostingWithImage(String id, String category, String userId, String title, String content, String imageURL) {
+        return new Posting(id, category, userId, title, content, timestamp(), imageURL);
     }
 
     public String getId() {
@@ -84,6 +104,7 @@ public class PostingModel {
     private List<Posting> postings = new ArrayList<>();
     private OnPostingChangedListener onPostingChangedListener;
     private FirebaseAuth auth = FirebaseAuth.getInstance();
+    private StorageReference storageReference;
     private FirebaseUser user;
     private String userKey;
 
@@ -96,6 +117,9 @@ public class PostingModel {
     public PostingModel(String category) {
         user = auth.getCurrentUser();
         userKey = user.getUid();
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReferenceFromUrl("gs://social-app-programming.appspot.com").child("postingImages");
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         this.postingRef = database.getReference("postings");
@@ -111,7 +135,7 @@ public class PostingModel {
                 }
                 postings = newPostings;
 
-                if(onPostingChangedListener != null) {
+                if (onPostingChangedListener != null) {
                     onPostingChangedListener.onDataChanged(postings);
                 }
             }
@@ -124,9 +148,29 @@ public class PostingModel {
 
     }
 
+    private String generateTempFilename() {
+        return new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+    }
+
+    public void uploadImage(InputStream is, final OnUploadImageListener listener) {
+        UploadTask task = storageReference.child(generateTempFilename()).putStream(is);
+        task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                String imageUrl = taskSnapshot.getDownloadUrl().toString();
+                listener.onSuccess(imageUrl);
+            }
+        });
+    }
+
     public void writePostings(String category, String title, String content) {
         DatabaseReference childRef = postingRef.child(category).push();
         childRef.setValue(Posting.newPosting(childRef.getKey(), category, umodel.getUserId(), title, content));
+    }
+
+    public void writePostingsWithImage(String category, String title, String content, String imageUrl) {
+        DatabaseReference childRef = postingRef.child(category).push();
+        childRef.setValue(Posting.newPostingWithImage(childRef.getKey(), category, umodel.getUserId(), title, content, imageUrl));
     }
 
     public String getTitle(int position) {
@@ -145,5 +189,12 @@ public class PostingModel {
         return postings.get(position).timestamp;
     }
 
+    public String getPostingId(int position) {
+        return postings.get(position).id;
+    }
+
+    public String getImageURL(int position) {
+        return postings.get(position).imageURL;
+    }
 
 }

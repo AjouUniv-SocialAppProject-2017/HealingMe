@@ -70,4 +70,8 @@ public class ChatGroupModel {
         if(!groupNames.contains(title))
             groupRef.push().setValue(title);
     }
+
+    public String getGroup(int position) {
+        return groupNames.get(position);
+    }
 }

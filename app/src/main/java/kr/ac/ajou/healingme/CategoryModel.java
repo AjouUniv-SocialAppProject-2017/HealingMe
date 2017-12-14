@@ -1,5 +1,8 @@
 package kr.ac.ajou.healingme;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,7 +26,7 @@ import java.util.Locale;
  * Created by janghanna on 2017. 11. 7..
  */
 
-class Category {
+class Category implements Parcelable{
     final String category;
     final String imageURL;
 
@@ -40,6 +43,11 @@ class Category {
         this.imageURL = imageURL;
     }
 
+    public Category(Parcel in) {
+        this.category = in.readString();
+        this.imageURL = in.readString();
+    }
+
     public static Category newCategory(String category) {
         return new Category(category);
     }
@@ -47,6 +55,34 @@ class Category {
     public static Category newCategoryWithImage(String category, String imageUrl) {
         return new Category(category, imageUrl);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(this.category);
+        parcel.writeString(this.imageURL);
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static final Creator CREATOR = new Creator() {
+
+        @Override
+        public Category createFromParcel(Parcel in) {
+            return new Category(in);
+        }
+
+        @Override
+        public Category[] newArray(int size) {
+            // TODO Auto-generated method stub
+            return new Category[size];
+        }
+
+    };
+
 }
 
 interface OnCategoryChangedListener {
