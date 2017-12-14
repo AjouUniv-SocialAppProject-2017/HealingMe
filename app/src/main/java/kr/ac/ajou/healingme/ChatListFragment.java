@@ -19,6 +19,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +39,12 @@ public class ChatListFragment extends Fragment {
     private RecyclerView groupRecyclerView;
     private FloatingActionButton addFolderButton;
 
+    private DatabaseReference userRef;
+
+    private String userList = "";
+    private int userNum;
+    private List<String> users = new ArrayList<>();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +54,8 @@ public class ChatListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.activity_chat_list, container, false);
+
+        userRef = FirebaseDatabase.getInstance().getReference("chats");
 
         groupRecyclerView = (RecyclerView) rootView.findViewById(R.id.chat_group_recyclerview);
         addFolderButton = (FloatingActionButton) rootView.findViewById(R.id.add_chat_button);
@@ -88,7 +102,8 @@ public class ChatListFragment extends Fragment {
 
             @Override
             public void onBindViewHolder(final ChatGroupHolder holder, final int position) {
-                holder.setGroupName(groupNames.get(position));
+                holder.setGroupName(model.getGroup(position));
+                holder.setUsers(model.getGroup(position));
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -129,22 +144,66 @@ public class ChatListFragment extends Fragment {
 
     }
 
+    class ChatGroupHolder extends RecyclerView.ViewHolder {
+        private TextView chat_group;
+        private TextView chat_users;
+        private TextView chat_userNum;
+
+        public ChatGroupHolder(View itemView) {
+            super(itemView);
+
+            chat_group = (TextView) itemView.findViewById(R.id.chat_group_name);
+            chat_users = itemView.findViewById(R.id.chat_group_people);
+            chat_userNum = itemView.findViewById(R.id.chat_people_num);
+        }
+
+        public void setGroupName(String name) {
+            chat_group.setText(name);
+        }
+
+        public String getGroupName() {
+            return chat_group.getText().toString();
+        }
+
+        public void setUsers(final String chatGroup) {
+
+            userRef.child(chatGroup).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    List<String> newUsers = new ArrayList<>();
+                    Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
+                    for (DataSnapshot e : children) {
+                        Chat user = e.getValue(Chat.class);
+                        if (!users.contains(user.userId)) {
+                            users.add(user.userId);
+
+                            if (users.size()==1) {
+                                userList += user.userId;
+                            } else {
+                                userList += ("/" + user.userId);
+                            }
+//                            userList += (" " + user.userId);
+
+                        }
+                        userNum = users.size();
+
+                        chat_users.setText(userList + " 참여중..");
+                        chat_userNum.setText(String.valueOf(userNum));
+                    }
+                    users = newUsers;
+                    userList = "";
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+        }
+
+    }
+
 }
 
-class ChatGroupHolder extends RecyclerView.ViewHolder {
-    private TextView chat_group;
-
-    public ChatGroupHolder(View itemView) {
-        super(itemView);
-
-        chat_group = (TextView) itemView.findViewById(R.id.chat_group_name);
-    }
-
-    public void setGroupName(String name) {
-        chat_group.setText(name);
-    }
-
-    public String getGroupName() {
-        return chat_group.getText().toString();
-    }
-}
