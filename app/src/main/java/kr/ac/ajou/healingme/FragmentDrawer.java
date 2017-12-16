@@ -8,11 +8,21 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +35,26 @@ public class FragmentDrawer extends Fragment{
     private static String TAG = FragmentDrawer.class.getSimpleName();
 
     private RecyclerView recyclerView;
+    public static ImageView profileImage;
+    private LetterCountModel letterCountModel;
+
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private NavigationDrawerAdapter adapter;
     private View containerView;
     private static String[] titles = null;
     private FragmentDrawerListener drawerListener;
+
+
+    private DatabaseReference letterCountRef;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private List<LetterCountData> letterCountDataList = new ArrayList<>();
+
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
+    private FirebaseUser user;
+    private String userKey;
+    private int count;
+
 
     public FragmentDrawer() {
 
@@ -67,6 +91,10 @@ public class FragmentDrawer extends Fragment{
         // Inflating view layout
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
+        profileImage = (ImageView) layout.findViewById(R.id.profileImage);
+
+        letterCountModel=new LetterCountModel();
+        LetterCountModel();
 
         adapter = new NavigationDrawerAdapter(getActivity(), getData());
         recyclerView.setAdapter(adapter);
@@ -174,5 +202,40 @@ public class FragmentDrawer extends Fragment{
 
     public interface FragmentDrawerListener {
         public void onDrawerItemSelected(View view, int position);
+    }
+
+
+
+    public void LetterCountModel() {
+        user = auth.getCurrentUser();
+        userKey = user.getUid();
+
+        letterCountRef=database.getReference(userKey);
+        letterCountRef.child(userKey).child("messageCount").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                letterCountDataList = new ArrayList<>();
+
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                for (DataSnapshot e : children) {
+                    LetterCountData lettersCountData = e.getValue(LetterCountData.class);
+                    letterCountDataList.add(lettersCountData);
+                    count=letterCountDataList.size();
+                }
+                 if((count>=0) && (count<=5)) {
+                    profileImage.setImageResource(R.drawable.closemailbox);
+                }else if((count>5) && (count<=10)){
+                    profileImage.setImageResource(R.drawable.postbox);
+                }
+                Log.e("count",count+"");
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

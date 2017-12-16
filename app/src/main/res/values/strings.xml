@@ -3,7 +3,10 @@
     <string name="action_logout">로그아웃</string>
     <string name="action_customservice">고객센터</string>
 
-    <string name="action_search">Search</string>
+    <string name="action_letter">Mailbox</string>
+    <string name="action_draw">Album</string>
+    <string name="action_posting">Posting</string>
+
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
 

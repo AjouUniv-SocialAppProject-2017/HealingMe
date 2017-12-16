@@ -30,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -37,11 +38,13 @@ public class LetterFragment extends Fragment implements View.OnClickListener {
 
     private View rootView;
     private LetterModel letterModel;
+    private LetterCountModel letterCountModel;
+
     private EditText letterEdit;
     private Button button,calendarBtn;
     private TextView Displaycalendar;
 
-    private String color, key;
+    private String color,key,userkey;
     private int year, month, day;
 
     public static int id,daydiff,getDaydiff;
@@ -49,17 +52,15 @@ public class LetterFragment extends Fragment implements View.OnClickListener {
 
     private Calendar calendar = Calendar.getInstance();
 
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = firebaseDatabase.getReference();
-
     private AlarmManager mManager;
     private GregorianCalendar mCalendar;
     private Calendar Day1;
     private Calendar Day2;
     private  long d1,d2;
     private long days;
-
+    private int Calenderclick;
     private List<Integer> daydifflist=new ArrayList<Integer>();
+    private int lettercount=0;
 
 
 
@@ -100,14 +101,20 @@ public class LetterFragment extends Fragment implements View.OnClickListener {
 
         mManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 
+
         letterModel = new LetterModel();
+        letterCountModel=new LetterCountModel();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("letterTitle", letterEdit.getText().toString());
-                letterModel.saveLetter(key, letterEdit.getText().toString(), color, year, month + 1, day,daydiff);
-
+                if(Objects.equals(Calenderclick,1)) {
+                    letterModel.saveLetter(userkey,key, letterEdit.getText().toString(), color, year, month + 1, day, daydiff, letterYear, letterMonth, letterDate);
+                    letterCountModel.saveLetter(userkey,key,lettercount);
+                }else{
+                    letterModel.saveLetter(userkey,key, letterEdit.getText().toString(), color, year, month + 1, day, daydiff, year, month+1, day);
+                    letterCountModel.saveLetter(userkey,key,lettercount);
+                }
                 setAlarm();//이거때문에 그냥 바로 보내지는건가??? 아니면 뭐가 문제인거지
             }
         });
@@ -115,6 +122,7 @@ public class LetterFragment extends Fragment implements View.OnClickListener {
         calendarBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Calenderclick=1;
                 DialogFragment dialogfragment = new DatePickerDialogTheme1();
                 dialogfragment.show(getActivity().getFragmentManager(), "Theme 1");
             }
@@ -179,7 +187,15 @@ public class LetterFragment extends Fragment implements View.OnClickListener {
 
     }
 
+    public void Random() {
 
+        Random r = new Random(); //객체생성
+        id = r.nextInt(100) + 1;
+        /*nextInt(9) = 0~99까지 100개의 숫자중 랜덤으로 하나를 뽑아
+         변수 a에 넣는다는 의미로 1~100의 숫자에서 하나를 뽑기위해 추출된 값에서 +1을 해준다*/
+
+        System.out.println("랜덤으로 뽑힌 숫자는 " + id + "입니다."); //a에 저장된 값을 화면에 출력
+    }
 
     @Override
     public void onClick(View view) {
@@ -220,14 +236,6 @@ public class LetterFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    public void Random() {
 
-        Random r = new Random(); //객체생성
-        id = r.nextInt(100) + 1;
-        /*nextInt(9) = 0~99까지 100개의 숫자중 랜덤으로 하나를 뽑아
-         변수 a에 넣는다는 의미로 1~100의 숫자에서 하나를 뽑기위해 추출된 값에서 +1을 해준다*/
-
-        System.out.println("랜덤으로 뽑힌 숫자는 " + id + "입니다."); //a에 저장된 값을 화면에 출력
-    }
 
 }

@@ -93,6 +93,10 @@ class Posting implements Serializable {
     public String getContent() {
         return content;
     }
+
+    public String getImageURL() {
+        return imageURL;
+    }
 }
 
 interface OnPostingChangedListener {
@@ -135,6 +139,8 @@ public class PostingModel {
                 }
                 postings = newPostings;
 
+                System.out.println(postings.size());
+
                 if (onPostingChangedListener != null) {
                     onPostingChangedListener.onDataChanged(postings);
                 }
@@ -174,6 +180,7 @@ public class PostingModel {
     }
 
     public String getTitle(int position) {
+        System.out.println("Aaaa"+postings.get(position).title);
         return postings.get(position).title;
     }
 

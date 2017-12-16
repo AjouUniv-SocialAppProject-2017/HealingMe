@@ -1,18 +1,20 @@
 package kr.ac.ajou.healingme;
 
 import android.content.Intent;
-import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Objects;
 
 public class GetLetterDetailActivity extends AppCompatActivity {
-    private String msg, color, key;
+    private String msg, color, key,userkey;
     private int year, month, date, point;
     private View rootView;
     private TextView textView, dateTextView;
@@ -32,6 +34,7 @@ public class GetLetterDetailActivity extends AppCompatActivity {
 
 
         msg = getIntent().getStringExtra("msg");
+        userkey=getIntent().getStringExtra("userkey");
         key = getIntent().getStringExtra("key");
         color = getIntent().getStringExtra("color");
         year = getIntent().getIntExtra("year",1);
@@ -46,7 +49,7 @@ public class GetLetterDetailActivity extends AppCompatActivity {
         textView.getText();
         dateTextView.getText();
         textView.setText(msg);
-        dateTextView.setText(year + "/" + month + "/" + date);
+        dateTextView.setText(year + "/" + (month+1) + "/" + date);
 
         letterModel = new LetterModel();
 
@@ -55,7 +58,8 @@ public class GetLetterDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.e("keys", key);
-                letterModel.deleteLetter(key);
+                letterModel.deleteLetter(userkey,key);
+                Toast.makeText(getApplicationContext(),"편지가 삭제되었습니다",Toast.LENGTH_LONG).show();
 
             }
         });

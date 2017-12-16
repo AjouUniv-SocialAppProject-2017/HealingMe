@@ -54,9 +54,7 @@ public class PostingListFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.activity_posting, container, false);
 
         categoryName = getArguments().getString("category");
-
-//        TextView actionbarText = (TextView) rootView.findViewById(R.id.custom_actionbar_text);
-//        actionbarText.setText(categoryName);
+        System.out.println(categoryName);
         model = new PostingModel(categoryName);
         userModel = new UserModel();
         likeRef = FirebaseDatabase.getInstance().getReference("likes");
@@ -94,11 +92,13 @@ public class PostingListFragment extends Fragment {
 
             @Override
             public void onBindViewHolder(PostingHolder holder, final int position) {
-                String title = model.getTitle(position);
-                String timestamp = model.getTimestamp(position);
-                String imageUrl = model.getImageURL(position);
+                String title = postings.get(position).getTitle();
+                String timestamp = postings.get(position).getTimestamp();
+                String imageUrl = postings.get(position).getImageURL();
                 holder.setText(title, timestamp);
                 holder.setImage(imageUrl);
+
+                holder.setLike(postings.get(position).getId());
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
