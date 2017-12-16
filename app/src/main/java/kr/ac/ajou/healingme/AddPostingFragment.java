@@ -81,6 +81,10 @@ public class AddPostingFragment extends Fragment {
                 }
 
                 PostingListFragment postingListFragment = new PostingListFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("category", categoryName);
+                postingListFragment.setArguments(bundle);
+
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
                 fragTransaction.replace(R.id.container_body, postingListFragment);
