@@ -174,7 +174,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 if(task.isSuccessful()) {
                                     Toast.makeText(SignUpActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
                                     UserModel userModel = new UserModel();
-                                    userModel.saveUser(name.getText().toString(), id.getText().toString(), 0);
+                                    userModel.saveUser(name.getText().toString(), id.getText().toString());
                                 } else {
                                     Toast.makeText(SignUpActivity.this, "회원가입 실패", Toast.LENGTH_SHORT).show();
                                 }

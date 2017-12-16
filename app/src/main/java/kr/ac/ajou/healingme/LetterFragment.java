@@ -89,7 +89,7 @@ public class LetterFragment extends Fragment implements View.OnClickListener {
         calendarBtn=(Button)rootView.findViewById(R.id.btn_calendar);
         calendar = Calendar.getInstance();
         Displaycalendar=(TextView)rootView.findViewById(R.id.calendarTxt);
-        Displaycalendar.setText(year+"년"+(month+1)+"월"+day+"일");
+        Displaycalendar.setText(year+"년 "+(month+1)+"월 "+day+"일");
 
         rootView.findViewById(R.id.btn_red).setOnClickListener(this);
         rootView.findViewById(R.id.btn_green).setOnClickListener(this);
@@ -157,7 +157,7 @@ public class LetterFragment extends Fragment implements View.OnClickListener {
 
             Day2 = Calendar.getInstance();
 
-            Displaycalendar.setText(year + "년" + (month + 1) + "월" + day + "일");
+            Displaycalendar.setText(year + "년 " + (month + 1) + "월 " + day + "일");
             letterYear = year;
             letterMonth = month + 1;
             letterDate = day;

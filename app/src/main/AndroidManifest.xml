@@ -32,10 +32,6 @@
 
         <receiver android:name=".BroadcastD" />
 
-        <activity
-            android:name=".PopupActivity"
-            android:theme="@android:style/Theme.Dialog" />
-
     </application>
 
 </manifest>

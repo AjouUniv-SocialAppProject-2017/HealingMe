@@ -150,6 +150,9 @@ public class ChatFragment extends Fragment {
             }
         });
 
+        int count = recyclerView.getAdapter().getItemCount();
+        recyclerView.scrollToPosition(count - 1);
+
         cmodel.setOnDataChangedListener(new OnDataChangedListener() {
             @Override
             public void onDataChanged() {

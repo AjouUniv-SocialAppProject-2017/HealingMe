@@ -30,7 +30,7 @@ import java.util.Random;
 public class MovieFragment extends Fragment {
 
     public static ArrayList<MovieData> movieDatas=new ArrayList<>();//어디서든~~~~
-    private TextView movie_title,movie_release,movie_rating;
+    private TextView movie_title,movie_rating;
     private ImageView movie_image;
     private Bitmap bitmap;
     private Button btn_random;
@@ -52,7 +52,6 @@ public class MovieFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_movie, container, false);
         movie_title=(TextView)view.findViewById(R.id.movie_title);
         movie_rating=(TextView)view.findViewById(R.id.movie_rate);
-        movie_release=(TextView)view.findViewById(R.id.movie_relase);
         movie_image=(ImageView)view.findViewById(R.id.movie_image);
         btn_random=(Button)view.findViewById(R.id.btn_randomMovie);
 
@@ -102,9 +101,8 @@ public class MovieFragment extends Fragment {
         rating=randomMovie.getRating();
 
 
-        movie_title.setText(title);
-        movie_release.setText(relase);
-        movie_rating.setText(rating);
+        movie_title.setText(title+" ("+relase+")");
+        movie_rating.setText("별점"+" - "+rating);
 
         Thread mThread = new Thread(){
             public void run(){

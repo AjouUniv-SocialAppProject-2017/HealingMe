@@ -17,6 +17,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -165,17 +166,7 @@ public class CategoryFragment extends Fragment {
             }
         });
 
-        Button searchButton = rootView.findViewById(R.id.search_posting_button);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity().getBaseContext(), SearchActivity.class);
-                System.out.println("eeeeeeee"+categories.size());
-                intent.putParcelableArrayListExtra("categorylist", (ArrayList<? extends Parcelable>) categories);
-                startActivity(intent);
-            }
-        });
-
+        setHasOptionsMenu(true);
 
         return rootView;
     }
@@ -191,6 +182,20 @@ public class CategoryFragment extends Fragment {
             currentImageUri = data.getData();
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == R.id.action_posting) {
+            Intent intent = new Intent(getActivity().getBaseContext(), SearchActivity.class);
+            System.out.println("eeeeeeee"+categories.size());
+            intent.putParcelableArrayListExtra("categorylist", (ArrayList<? extends Parcelable>) categories);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     class CategoryHolder extends RecyclerView.ViewHolder {

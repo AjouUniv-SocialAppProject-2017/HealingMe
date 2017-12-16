@@ -80,7 +80,13 @@ public class AddPostingFragment extends Fragment {
                     }
                 }
 
-
+                PostingListFragment postingListFragment = new PostingListFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
+                fragTransaction.replace(R.id.container_body, postingListFragment);
+                fragTransaction.addToBackStack(null);
+                fragTransaction.commit();
+                
             }
         });
 

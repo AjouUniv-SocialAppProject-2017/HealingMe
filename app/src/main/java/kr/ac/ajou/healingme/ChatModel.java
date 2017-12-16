@@ -58,6 +58,9 @@ class Chat {
         return dateFormat.format(date);
     }
 
+    public String getUserId() {
+        return userId;
+    }
 }
 
 public class ChatModel {

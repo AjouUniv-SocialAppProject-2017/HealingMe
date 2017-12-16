@@ -1,16 +1,24 @@
 package kr.ac.ajou.healingme;
 
+import android.*;
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +47,7 @@ public class DrawActivity extends Fragment{
 
     final int REQ_CODE_SELECT_IMAGE=100;
     static Bitmap image_bitmap;
+    private static final int My_Permission_Storage=1111;
 
 
 
@@ -186,6 +195,7 @@ public class DrawActivity extends Fragment{
                                     relativeLayout.addView(new DrawView(getActivity()));
 
                                 } else if (index == 1) {
+                                    checkPermission();
                                     relativeLayout.setDrawingCacheEnabled(true);    // 캐쉬허용
                                     // 캐쉬에서 가져온 비트맵을 복사해서 새로운 비트맵(스크린샷) 생성
                                     Bitmap screenshot = Bitmap.createBitmap(relativeLayout.getDrawingCache());
@@ -207,7 +217,7 @@ public class DrawActivity extends Fragment{
                                         out.flush();
                                         out.close();
                                         MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), screenshot, "title", "descripton");//갤러리로 저장
-                                        Toast.makeText(getContext(),"그림저장",Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext(),"그림이 저장되었습니다",Toast.LENGTH_LONG).show();
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -327,5 +337,51 @@ public class DrawActivity extends Fragment{
     }
 
 
+
+    //권한설정
+    private void checkPermission(){
+        if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.RECORD_AUDIO)){
+                new android.app.AlertDialog.Builder(getActivity())
+                        .setTitle("알림")
+                        .setMessage("권한 설정을 해주세요")
+                        .setNeutralButton("설정", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent=new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                intent.setData(Uri.parse("package:"+getActivity().getPackageName()));
+                                startActivity(intent);
+                            }
+                        })
+                        .setPositiveButton("거부", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                getActivity().finish();
+                            }
+                        })
+                        .setCancelable(false)
+                        .create()
+                        .show();
+            }else {
+                ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},My_Permission_Storage);
+
+            }
+
+        }
+    }
+
+    public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults){
+        switch (requestCode){
+            case My_Permission_Storage:
+                for(int i=0;i<grantResults.length;i++){
+                    if(grantResults[i]<0){
+                        Toast.makeText(getContext(),"해당 권한을 설정해주세요",Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                }
+                break;
+        }
+
+    }
 
 }

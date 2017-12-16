@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,12 +32,15 @@ import java.util.List;
  * Created by Son on 2017-11-14.
  */
 
-public class FragmentDrawer extends Fragment{
+public class FragmentDrawer extends Fragment {
     private static String TAG = FragmentDrawer.class.getSimpleName();
 
     private RecyclerView recyclerView;
     public static ImageView profileImage;
+    private TextView profileID;
+    private String currentUser;
     private LetterCountModel letterCountModel;
+    private UserModel userModel;
 
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
@@ -47,6 +51,7 @@ public class FragmentDrawer extends Fragment{
 
 
     private DatabaseReference letterCountRef;
+    private DatabaseReference userRef;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private List<LetterCountData> letterCountDataList = new ArrayList<>();
 
@@ -92,8 +97,11 @@ public class FragmentDrawer extends Fragment{
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
         profileImage = (ImageView) layout.findViewById(R.id.profileImage);
+        profileID = (TextView) layout.findViewById(R.id.profileID);
 
-        letterCountModel=new LetterCountModel();
+        letterCountModel = new LetterCountModel();
+        userModel = new UserModel();
+
         LetterCountModel();
 
         adapter = new NavigationDrawerAdapter(getActivity(), getData());
@@ -111,6 +119,8 @@ public class FragmentDrawer extends Fragment{
 
             }
         }));
+
+        getUser();
 
         return layout;
     }
@@ -205,12 +215,11 @@ public class FragmentDrawer extends Fragment{
     }
 
 
-
     public void LetterCountModel() {
         user = auth.getCurrentUser();
         userKey = user.getUid();
 
-        letterCountRef=database.getReference(userKey);
+        letterCountRef = database.getReference(userKey);
         letterCountRef.child(userKey).child("messageCount").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -220,14 +229,16 @@ public class FragmentDrawer extends Fragment{
                 for (DataSnapshot e : children) {
                     LetterCountData lettersCountData = e.getValue(LetterCountData.class);
                     letterCountDataList.add(lettersCountData);
-                    count=letterCountDataList.size();
+                    count = letterCountDataList.size();
                 }
-                 if((count>=0) && (count<=5)) {
-                    profileImage.setImageResource(R.drawable.closemailbox);
-                }else if((count>5) && (count<=10)){
-                    profileImage.setImageResource(R.drawable.postbox);
+                if ((count >= 0) && (count <= 5)) {
+                    profileImage.setImageResource(R.drawable.levelone);
+                } else if ((count > 5) && (count <= 10)) {
+                    profileImage.setImageResource(R.drawable.leveltwo);
+                } else {
+                    profileImage.setImageResource(R.drawable.levelthree);
                 }
-                Log.e("count",count+"");
+                Log.e("count", count + "");
 
 
             }
@@ -237,5 +248,34 @@ public class FragmentDrawer extends Fragment{
 
             }
         });
+    }
+
+    public void getUser() {
+        user = auth.getCurrentUser();
+        userKey = user.getUid();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        userRef = database.getReference("users");
+
+        userRef.child(userKey).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                for (DataSnapshot e : children) {
+                    User user = e.getValue(User.class);
+
+                    currentUser = user.getId();
+                    profileID.setText(currentUser+" 님, 안녕하세요!");
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 }

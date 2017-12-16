@@ -101,6 +101,8 @@ public class PostingInfoFragment extends Fragment {
             public void onDataChanged(List<Comment> newcomments) {
                 comments = newcomments;
                 commentRecyclerView.getAdapter().notifyDataSetChanged();
+                int count = commentRecyclerView.getAdapter().getItemCount();
+                commentRecyclerView.scrollToPosition(count - 1);
             }
         });
 

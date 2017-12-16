@@ -55,6 +55,7 @@ public class PostingListFragment extends Fragment {
 
         categoryName = getArguments().getString("category");
         System.out.println(categoryName);
+
         model = new PostingModel(categoryName);
         userModel = new UserModel();
         likeRef = FirebaseDatabase.getInstance().getReference("likes");

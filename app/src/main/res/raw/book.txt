@@ -7,7 +7,7 @@ http://bimage.interpark.com/goods_image/2/8/3/6/226122836g.jpg,미움받을 용기, 기
 http://bimage.interpark.com/goods_image/0/4/8/0/208330480g.jpg,나는 오늘도 나를 응원한다,마리사 피어,비즈니스북스
 http://bimage.interpark.com/goods_image/2/3/4/4/260102344g.jpg,혼자 잘해주고 상처받지 마라,유은정,21세기북스
 http://bimage.interpark.com/goods_image/8/7/3/7/202288737g.jpg,도시심리학,하지현,해냄
-http://bimage.interpark.com/goods_image/5/0/8/2/208005082g.jpg,필링굿(Feeling Good),데이비드 번스,아름드리미디어
+http://bimage.interpark.com/goods_image/5/0/8/2/208005082g.jpg,필링굿,데이비드 번스,아름드리미디어
 http://bimage.interpark.com/goods_image/8/2/4/8/235798248g.jpg,그래도 괜찮은 하루,구작가,예담
 http://bimage.interpark.com/goods_image/6/0/4/4/257296044g.jpg,자존감 수업,윤홍균,심플라이프
 http://bimage.interpark.com/goods_image/9/0/7/5/256809075g.jpg,언어의 온도,이기주,말글터

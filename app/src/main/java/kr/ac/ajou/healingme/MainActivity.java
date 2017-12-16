@@ -45,8 +45,6 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
         drawerFragment.setDrawerListener(this);
 
-        Intent intent = new Intent(getApplicationContext(), PopupActivity.class);
-        startActivity(intent);
 
         // display the first navigation drawer view on app launch
         displayView(0);
@@ -61,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         if (Objects.equals(status, 1)) {
             getMenuInflater().inflate(R.menu.menu_letter, menu);
         } else if (Objects.equals(status, 2)) {
-            getMenuInflater().inflate(R.menu.menu_main, menu);
         } else if (Objects.equals(status, 3)) {
             getMenuInflater().inflate(R.menu.menu_posting, menu);
         } else if (Objects.equals(status, 4)) {

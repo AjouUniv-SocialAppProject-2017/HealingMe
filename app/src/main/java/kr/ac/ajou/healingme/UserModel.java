@@ -19,14 +19,12 @@ import java.util.List;
 class User {
     String name;
     String id;
-    int sex;
 
     public User() {}
 
-    public User(String name, String id, int sex) {
+    public User(String name, String id) {
         this.name = name;
         this.id = id;
-        this.sex = sex;
     }
 
     public String getId() {
@@ -111,9 +109,9 @@ public class UserModel {
         });
     }
 
-    public void saveUser(String name, String id, int sex) {
+    public void saveUser(String name, String id) {
         DatabaseReference ref = userRef.child(userKey).push();
-        ref.setValue(new User(name, id, sex));
+        ref.setValue(new User(name, id));
     }
 
     public String getUserId() {

@@ -7,61 +7,63 @@
     android:orientation="vertical"
     tools:context="com.example.son.recommend.MovieFragment">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+
 
         <ImageView
             android:id="@+id/book_image"
             android:layout_width="200dp"
             android:layout_height="200dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            android:src="@mipmap/ic_launcher_round" />
+            android:layout_marginTop="87dp"
+            />
+
 
         <TextView
             android:id="@+id/book_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:textSize="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        <TextView
-            android:id="@+id/book_author"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:textSize="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textColor="#000000"
+            android:layout_below="@+id/book_image"/>
+
+
         <TextView
             android:id="@+id/book_publisher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:textSize="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textColor="#000000"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_below="@+id/book_title"
+            />
+
 
         <Button
             android:id="@+id/btn_randomBook"
-            android:textSize="12dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:layout_below="@id/book_publisher"
+            android:background="@drawable/next"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="20dp"
             android:layout_gravity="center"/>
 
-    </LinearLayout>
+
+    </RelativeLayout>
+
 
 
 </FrameLayout>

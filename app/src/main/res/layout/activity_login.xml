@@ -3,10 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#d1e5f0">
 
 
+    <ImageView
+        android:id="@+id/face"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/face"
+        />
     <android.support.design.widget.TextInputLayout
+        android:layout_below="@+id/face"
         android:id="@+id/signin_email_edit_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,6 +58,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/signin_password_edit_layout"
         android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+
+        android:background="@color/colorPrimary"
         android:text="로그인" />
 
     <Button
@@ -59,6 +72,7 @@
         android:background="@null"
         android:text="아직 회원이 아니신가요?\n회원가입"
         android:textColor="@color/gray"
+        android:layout_marginTop="5dp"
         android:textSize="13dp" />
 
     <ProgressBar

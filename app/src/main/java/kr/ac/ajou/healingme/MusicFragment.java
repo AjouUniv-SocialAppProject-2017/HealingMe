@@ -25,7 +25,7 @@ import java.util.Random;
 public class MusicFragment extends Fragment {
 
     public static ArrayList<MusicData> musicDatas=new ArrayList<>();//어디서든~~~~
-    private TextView music_title,music_singer,music_album;
+    private TextView music_title,music_album;
     private ImageView music_image;
     private Bitmap bitmap;
     private Button btn_random;
@@ -47,7 +47,6 @@ public class MusicFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_music_fragment, container, false);
         music_title=(TextView)view.findViewById(R.id.music_title);
-        music_singer=(TextView)view.findViewById(R.id.music_singer);
         music_album=(TextView)view.findViewById(R.id.music_album);
         music_image=(ImageView)view.findViewById(R.id.music_image);
         btn_random=(Button)view.findViewById(R.id.btn_randomMusic);
@@ -90,9 +89,8 @@ public class MusicFragment extends Fragment {
         singer=randomMusic.getSinger();
         album=randomMusic.getAlbum();
 
-        music_title.setText(title);
-        music_singer.setText(singer);
-        music_album.setText(album);
+        music_title.setText(title+" ("+singer+")");
+        music_album.setText("앨범"+" - "+album);
 
         Thread mThread = new Thread(){
             public void run(){

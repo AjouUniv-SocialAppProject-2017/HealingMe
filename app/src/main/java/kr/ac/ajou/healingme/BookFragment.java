@@ -29,7 +29,7 @@ import java.util.Random;
 public class BookFragment extends Fragment {
 
     public static ArrayList<BookData> bookDatas=new ArrayList<>();//어디서든~~~~
-    private TextView book_title,book_author,book_publisher;
+    private TextView book_title,book_publisher;
     private ImageView book_image;
     private Bitmap bitmap;
     private Button btn_random;
@@ -51,7 +51,6 @@ public class BookFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_book, container, false);
         book_title=(TextView)view.findViewById(R.id.book_title);
-        book_author=(TextView)view.findViewById(R.id.book_author);
         book_publisher=(TextView)view.findViewById(R.id.book_publisher);
         book_image=(ImageView)view.findViewById(R.id.book_image);
         btn_random=(Button)view.findViewById(R.id.btn_randomBook);
@@ -95,9 +94,8 @@ public class BookFragment extends Fragment {
         author=randomBook.getAuthor();
         publisher=randomBook.getPublisher();
 
-        book_title.setText(title);
-        book_author.setText(author);
-        book_publisher.setText(publisher);
+        book_title.setText(title+" ("+author+")");
+        book_publisher.setText("출판사"+" - "+publisher);
 
         Thread mThread = new Thread(){
             public void run(){
