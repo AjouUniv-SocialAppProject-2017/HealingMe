@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -45,6 +46,7 @@ public class PostingInfoFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.activity_posting_info, container, false);
 
         posting = (Posting) getArguments().getSerializable("posting");
+        ((MainActivity) getActivity()).setActionBarTitle(posting.getTitle());
         categoryName = posting.getCategory();
         model = new CommentModel(posting.getId());
 
@@ -71,6 +73,7 @@ public class PostingInfoFragment extends Fragment {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity().getBaseContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        commentRecyclerView.addItemDecoration(new DividerItemDecoration(rootView.getContext(), LinearLayoutManager.VERTICAL));
         commentRecyclerView.setLayoutManager(layoutManager);
         commentRecyclerView.setAdapter(new RecyclerView.Adapter<CommentHolder>() {
             @Override

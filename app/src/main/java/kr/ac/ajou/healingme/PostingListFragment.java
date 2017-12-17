@@ -54,6 +54,7 @@ public class PostingListFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.activity_posting, container, false);
 
         categoryName = getArguments().getString("category");
+        ((MainActivity) getActivity()).setActionBarTitle(categoryName);
         System.out.println(categoryName);
 
         model = new PostingModel(categoryName);

@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:text="누구누구 참여" />
+            android:text="지금 참여하세요!" />
     </LinearLayout>
 
     <LinearLayout

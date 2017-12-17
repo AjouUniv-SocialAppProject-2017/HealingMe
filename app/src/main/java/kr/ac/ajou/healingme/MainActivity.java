@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -158,6 +159,14 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
             getSupportActionBar().setTitle(title);
         }
+    }
+
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
+
+    public ActionBar getCustomeActionBar() {
+        return getSupportActionBar();
     }
 
 

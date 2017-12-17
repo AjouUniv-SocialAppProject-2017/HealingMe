@@ -49,13 +49,16 @@ public class ChatFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        chatGroupName = getArguments().getString("chat_group");
+        ((MainActivity) getActivity()).setActionBarTitle(chatGroupName);
+
         final View rootView = inflater.inflate(R.layout.activity_chat, container, false);
 
-        chatGroupName = getArguments().getString("chat_group");
         cmodel = new ChatModel(chatGroupName);
         umodel = new UserModel();
 

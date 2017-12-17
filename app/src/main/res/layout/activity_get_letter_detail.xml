@@ -32,7 +32,7 @@
                 android:layout_marginTop="17dp"
                 android:text="나에게로부터"
                 android:textSize="18dp"
-                android:textStyle="bold" />
+                android:textColor="@color/black" />
 
 
             <ScrollView
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textSize="18dp"
-                android:textStyle="bold" />
+                android:textColor="@color/black" />
 
 
         </LinearLayout>

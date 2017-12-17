@@ -53,6 +53,8 @@ public class ChatListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ((MainActivity) getActivity()).setActionBarTitle("고민 상담");
+
         final View rootView = inflater.inflate(R.layout.activity_chat_list, container, false);
 
         userRef = FirebaseDatabase.getInstance().getReference("chats");
