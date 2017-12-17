@@ -219,6 +219,9 @@ public class CategoryFragment extends Fragment {
         }
 
         public void setImage(String imageUrl) {
+            if (imageUrl == null) {
+                categoryImage.setImageResource(R.drawable.defaultimage);
+            }
             Glide.with(CategoryFragment.this)
                     .load(imageUrl)
                     .into(categoryImage);

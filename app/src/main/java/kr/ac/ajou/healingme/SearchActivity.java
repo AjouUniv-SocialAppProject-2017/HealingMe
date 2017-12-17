@@ -91,10 +91,11 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onBindViewHolder(PostingHolder holder, int position) {
+            public void onBindViewHolder(PostingHolder holder, final int position) {
                 String title = model.getTitle(position);
                 String timestamp = model.getTimestamp(position);
                 holder.setText(title, timestamp);
+
             }
 
             @Override

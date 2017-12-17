@@ -19,12 +19,13 @@
 
             <ImageView
                 android:id="@+id/category_image"
-                android:layout_width="100dp"
+                android:layout_width="200dp"
                 android:layout_height="100dp"
+                android:layout_margin="2dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/defaultimage" />
+                android:padding="2dp"/>
 
             <View
                 android:layout_width="match_parent"
