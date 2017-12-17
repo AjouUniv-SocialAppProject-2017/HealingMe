@@ -187,8 +187,8 @@ public class LetterModel {
         user = auth.getCurrentUser();
         userKey = user.getUid();
 
-        letterRef=database.getReference(userKey);
-        letterRef.child(userKey).child("message").addValueEventListener(new ValueEventListener() {
+        letterRef=database.getReference("message");
+        letterRef.child(userKey).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 lettersDataList = new ArrayList<>();
@@ -218,13 +218,13 @@ public class LetterModel {
         user = auth.getCurrentUser();
         userKey = user.getUid();
 
-        DatabaseReference databaseReference=letterRef.child(userKey).child("message").push();
+        DatabaseReference databaseReference=letterRef.child(userKey).push();
         key=databaseReference.getKey();
         databaseReference.setValue(new LettersData(userKey,key,message,color,year,month,date,daydiff,letteryear,lettermonth,letterdate));
     }
 
     public void deleteLetter(String userKey2,String key){
-        letterRef.child(userKey).child("message").child(key).removeValue();
+        letterRef.child(userKey).child(key).removeValue();
     }
 
     public void updateLetter(String userKey2,String key,String message, String color, int year, int month, int date ,int daydiff,int letteryear,int lettermonth,int letterdate) {
@@ -242,7 +242,7 @@ public class LetterModel {
         Day2.set(letteryear,lettermonth,letterdate);
         d2 = Day2.getTimeInMillis();
         daydiff=(int)(d2-d1)/(1000*60*60*24);
-        letterRef.child(userKey).child("message").child(key).setValue(new LettersData(userKey2,key,message,color,year,month,date,daydiff,letteryear,lettermonth,letterdate));
+        letterRef.child(userKey).child(key).setValue(new LettersData(userKey2,key,message,color,year,month,date,daydiff,letteryear,lettermonth,letterdate));
     }
 
 }

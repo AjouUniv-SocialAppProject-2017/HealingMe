@@ -5,15 +5,20 @@ package kr.ac.ajou.healingme;
  */
 
 public class ServiceSendData {
-    private String context,userName;
+    private String context;
+    private String userName;
+
+
+    private String title;
     private int year,month,day;
     public ServiceSendData(){};
 
 
 
-    public ServiceSendData(String userName, String context, int year, int month, int day) {
+    public ServiceSendData(String userName, String title,String context, int year, int month, int day) {
 
         this.userName = userName;
+        this.title=title;
         this.context = context;
         this.year = year;
         this.month = month;
@@ -57,5 +62,14 @@ public class ServiceSendData {
 
     public void setDay(int day) {
         this.day = day;
+    }
+
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

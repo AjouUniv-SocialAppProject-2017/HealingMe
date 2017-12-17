@@ -84,8 +84,8 @@ public class LetterCountModel {
         user = auth.getCurrentUser();
         userKey = user.getUid();
 
-        letterCountRef=database.getReference(userKey);
-        letterCountRef.child(userKey).child("messageCount").addValueEventListener(new ValueEventListener() {
+        letterCountRef=database.getReference("messageCount");
+        letterCountRef.child(userKey).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 letterCountDataList = new ArrayList<>();
@@ -116,7 +116,7 @@ public class LetterCountModel {
         user = auth.getCurrentUser();
         userKey = user.getUid();
 
-        DatabaseReference databaseReference=letterCountRef.child(userKey).child("messageCount").push();
+        DatabaseReference databaseReference=letterCountRef.child(userKey).push();
         key=databaseReference.getKey();
         databaseReference.setValue(new LetterCountData(userKey,key,letterCount));
 

@@ -219,8 +219,9 @@ public class FragmentDrawer extends Fragment {
         user = auth.getCurrentUser();
         userKey = user.getUid();
 
-        letterCountRef = database.getReference(userKey);
-        letterCountRef.child(userKey).child("messageCount").addValueEventListener(new ValueEventListener() {
+
+        letterCountRef=database.getReference("messageCount");
+        letterCountRef.child(userKey).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 letterCountDataList = new ArrayList<>();

@@ -14,13 +14,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Random;
 
 public class CustomServiceActivity extends Fragment implements TextWatcher {
-    private EditText txtServiceCenter;
+    private EditText txtServiceCenter,txtTitleServiceCenter;
     private TextView txt_length;
     private Button btn_send;
     private Calendar Day1;
@@ -30,6 +32,9 @@ public class CustomServiceActivity extends Fragment implements TextWatcher {
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
+    private FirebaseUser user;
+    private String userKey;
 
     public CustomServiceActivity() {
         // Required empty public constructor
@@ -47,9 +52,10 @@ public class CustomServiceActivity extends Fragment implements TextWatcher {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_custom_service, container, false);
 
+        user = auth.getCurrentUser();
+        userKey = user.getUid();
 
-        userName = "user" + new Random().nextInt(10000);
-
+        txtTitleServiceCenter=(EditText)rootView.findViewById(R.id.customtitle);
         txtServiceCenter = (EditText) rootView.findViewById(R.id.edit_service);
         txt_length = (TextView) rootView.findViewById(R.id.review_length);
 
@@ -68,8 +74,8 @@ public class CustomServiceActivity extends Fragment implements TextWatcher {
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ServiceSendData serviceSendData = new ServiceSendData(userName, txtServiceCenter.getText().toString(), year, month + 1, day);  // 유저 이름과 메세지로 chatData 만들기
-                databaseReference.child("serviceCenter").push().setValue(serviceSendData);  // 기본 database 하위 message라는 child에 chatData를 list로 만들기
+                ServiceSendData serviceSendData = new ServiceSendData(userKey, txtTitleServiceCenter.getText().toString(),txtServiceCenter.getText().toString(), year, month + 1, day);  // 유저 이름과 메세지로 chatData 만들기
+                databaseReference.child("serviceCenter").child(userKey).push().setValue(serviceSendData);  // 기본 database 하위 message라는 child에 chatData를 list로 만들기
                 Toast.makeText(getActivity(), "보냈습니다", Toast.LENGTH_LONG).show();
             }
         });
