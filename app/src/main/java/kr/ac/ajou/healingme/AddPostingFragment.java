@@ -87,7 +87,7 @@ public class AddPostingFragment extends Fragment {
 
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
-                fragTransaction.add(R.id.container_body, postingListFragment);
+                fragTransaction.replace(R.id.container_body, postingListFragment);
                 fragTransaction.addToBackStack(null);
                 fragTransaction.commit();
                 

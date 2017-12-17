@@ -1,6 +1,7 @@
 package kr.ac.ajou.healingme;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -51,7 +52,6 @@ public class SearchActivity extends AppCompatActivity {
         noResultText.setVisibility(View.GONE);
 
         categories = getIntent().getParcelableArrayListExtra("categorylist");
-        System.out.println("aaaa"+categories.size());
         for (int i = 0; i < categories.size(); i++) {
             categoryNames.add(categories.get(i).category);
         }
@@ -108,8 +108,8 @@ public class SearchActivity extends AppCompatActivity {
         searchText.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(final String s) {
-                if (postings.size() == 0){
-                    noResultText.setText("'"+s+"' 검색 결과가 존재하지 않습니다");
+                if (postings.size() == 0) {
+                    noResultText.setText("'" + s + "' 검색 결과가 존재하지 않습니다");
                     noResultText.setVisibility(View.VISIBLE);
                 }
 
@@ -120,7 +120,7 @@ public class SearchActivity extends AppCompatActivity {
                         searchRecyclerview.getAdapter().notifyDataSetChanged();
 
                         if (postings.size() < 1) {
-                            noResultText.setText("'"+s+"' 검색 결과가 존재하지 않습니다");
+                            noResultText.setText("'" + s + "' 검색 결과가 존재하지 않습니다");
                             noResultText.setVisibility(View.VISIBLE);
                         } else {
                             noResultText.setVisibility(View.GONE);
@@ -146,13 +146,7 @@ public class SearchActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home: {
-                CategoryFragment categoryFragment = new CategoryFragment();
-
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
-                fragTransaction.add(R.id.container_body, categoryFragment);
-                fragTransaction.addToBackStack(null);
-                fragTransaction.commit();
+                onBackPressed();
 
                 return true;
             }

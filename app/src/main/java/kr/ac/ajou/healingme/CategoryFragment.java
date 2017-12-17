@@ -55,6 +55,8 @@ public class CategoryFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ((MainActivity) getActivity()).setActionBarTitle("너와 나의 취미");
+
         final View rootView = inflater.inflate(R.layout.activity_category, container, false);
 
         categoryRecyclerView = (RecyclerView) rootView.findViewById(R.id.category_recyclerview);
@@ -189,8 +191,8 @@ public class CategoryFragment extends Fragment {
 
         int id = item.getItemId();
         if (id == R.id.action_posting) {
+            System.out.println("aaaa이거다");
             Intent intent = new Intent(getActivity().getBaseContext(), SearchActivity.class);
-            System.out.println("eeeeeeee"+categories.size());
             intent.putParcelableArrayListExtra("categorylist", (ArrayList<? extends Parcelable>) categories);
             startActivity(intent);
         }

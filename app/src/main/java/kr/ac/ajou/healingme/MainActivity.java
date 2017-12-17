@@ -104,11 +104,6 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
             startActivity(intent);
         }
 
-        if (id == R.id.action_posting) {
-            Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
-            startActivity(intent);
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
