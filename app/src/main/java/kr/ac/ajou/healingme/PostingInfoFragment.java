@@ -1,7 +1,10 @@
 package kr.ac.ajou.healingme;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +33,13 @@ public class PostingInfoFragment extends Fragment {
     private RecyclerView commentRecyclerView;
     private EditText commentEdit;
     private Button commentButton;
+    private ConstraintLayout layout;
 
     private Posting posting;
     private String categoryName;
 
     private CommentModel model;
+    private UserModel userModel;
     private List<Comment> comments = new ArrayList<>();
 
     @Override
@@ -49,10 +55,12 @@ public class PostingInfoFragment extends Fragment {
         ((MainActivity) getActivity()).setActionBarTitle(posting.getTitle());
         categoryName = posting.getCategory();
         model = new CommentModel(posting.getId());
+        userModel = new UserModel();
 
         user = (TextView) rootView.findViewById(R.id.posting_user_text);
         date = (TextView) rootView.findViewById(R.id.posting_date_text);
         content = rootView.findViewById(R.id.posting_info_content_text);
+        layout = rootView.findViewById(R.id.posting_info_layout);
 
         user.setText(posting.getUserId());
         date.setText(posting.getTimestamp());
@@ -84,11 +92,38 @@ public class PostingInfoFragment extends Fragment {
             }
 
             @Override
-            public void onBindViewHolder(CommentHolder holder, int position) {
+            public void onBindViewHolder(CommentHolder holder, final int position) {
                 String user = model.getUserId(position);
                 String content = model.getContent(position);
                 String timestamp = model.getTimestamp(position);
                 holder.setText(user, content, timestamp);
+
+                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        AlertDialog.Builder ad = new AlertDialog.Builder(layout.getContext());
+                        ad.setTitle("댓글을 삭제하시겠습니까?");
+                        ad.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (model.getUserId(position).equals(userModel.getUserId())) {
+                                    model.deleteComment(posting.getId(), model.getId(position));
+                                } else {
+                                    Toast.makeText(rootView.getContext(), "다른 사용자의 댓글은 삭제할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                        ad.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        ad.show();
+
+                        return true;
+                    }
+                });
 
             }
 

@@ -20,17 +20,19 @@ import java.util.Locale;
 class Comment {
 //    final String category;
 //    final String postingKey;
+    final String commentId;
     final String userId;
     final String content;
     final String timestamp;
 
     public Comment() {
-        this("", "", "");
+        this("","", "", "");
     }
 
-    public Comment(String userId, String content, String timestamp) {
+    public Comment(String commentId,String userId, String content, String timestamp) {
 //        this.category = category;
 //        this.postingKey = postingKey;
+        this.commentId = commentId;
         this.userId = userId;
         this.content = content;
         this.timestamp = timestamp;
@@ -42,8 +44,8 @@ class Comment {
         return dateFormat.format(date);
     }
 
-    public static Comment newComment(String userId, String content) {
-        return new Comment(userId,content, timestamp());
+    public static Comment newComment(String commentId, String userId, String content) {
+        return new Comment(commentId, userId,content, timestamp());
     }
 
     public String getUserId() {
@@ -111,7 +113,15 @@ public class CommentModel {
 
     public void writeComment(String postingKey, String content) {
         DatabaseReference childRef = commentRef.child(postingKey).push();
-        childRef.setValue(Comment.newComment(umodel.getUserId(), content));
+        childRef.setValue(Comment.newComment(childRef.getKey(), umodel.getUserId(), content));
+    }
+
+    public void deleteComment(String postingKey, String commentId) {
+        commentRef.child(postingKey).child(commentId).removeValue();
+    }
+
+    public String getId(int position) {
+        return comments.get(position).commentId;
     }
 
     public String getContent(int position) {

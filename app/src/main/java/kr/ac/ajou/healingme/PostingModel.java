@@ -179,6 +179,10 @@ public class PostingModel {
         childRef.setValue(Posting.newPostingWithImage(childRef.getKey(), category, umodel.getUserId(), title, content, imageUrl));
     }
 
+    public void deletePosting(String category, String postingId) {
+        postingRef.child(category).child(postingId).removeValue();
+    }
+
     public String getTitle(int position) {
         System.out.println("Aaaa"+postings.get(position).title);
         return postings.get(position).title;

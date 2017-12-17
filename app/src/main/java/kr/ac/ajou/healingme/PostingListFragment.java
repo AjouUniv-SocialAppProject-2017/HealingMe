@@ -1,7 +1,10 @@
 package kr.ac.ajou.healingme;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,6 +44,7 @@ public class PostingListFragment extends Fragment {
 
     private RecyclerView postingRecyclerView;
     private FloatingActionButton addPostingButton;
+    private ConstraintLayout layout;
 
     private DatabaseReference likeRef;
     private boolean like = false;
@@ -56,6 +61,8 @@ public class PostingListFragment extends Fragment {
         categoryName = getArguments().getString("category");
         ((MainActivity) getActivity()).setActionBarTitle(categoryName);
         System.out.println(categoryName);
+
+        layout = rootView.findViewById(R.id.posting_list_layout);
 
         model = new PostingModel(categoryName);
         userModel = new UserModel();
@@ -115,6 +122,33 @@ public class PostingListFragment extends Fragment {
                         fragTransaction.replace(R.id.container_body, postingInfoFragment);
                         fragTransaction.addToBackStack(null);
                         fragTransaction.commit();
+                    }
+                });
+
+                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        AlertDialog.Builder ad = new AlertDialog.Builder(layout.getContext());
+                        ad.setTitle("게시글을 삭제하시겠습니까?");
+                        ad.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (model.getUserId(position).equals(userModel.getUserId())) {
+                                    model.deletePosting(categoryName, model.getPostingId(position));
+                                } else {
+                                    Toast.makeText(rootView.getContext(), "다른 사용자의 게시글은 삭제할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                        ad.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        ad.show();
+
+                        return true;
                     }
                 });
 
