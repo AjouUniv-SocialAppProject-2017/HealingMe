@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -115,6 +116,7 @@ public class LetterFragment extends Fragment implements View.OnClickListener {
                     letterModel.saveLetter(userkey,key, letterEdit.getText().toString(), color, year, month + 1, day, daydiff, year, month+1, day);
                     letterCountModel.saveLetter(userkey,key,lettercount);
                 }
+                Toast.makeText(getContext(),"편지가 전송되었습니다",Toast.LENGTH_LONG).show();
                 setAlarm();//이거때문에 그냥 바로 보내지는건가??? 아니면 뭐가 문제인거지
             }
         });
