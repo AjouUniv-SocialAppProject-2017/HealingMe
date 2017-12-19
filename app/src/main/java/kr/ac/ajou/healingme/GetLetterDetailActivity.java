@@ -1,11 +1,15 @@
 package kr.ac.ajou.healingme;
 
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,19 +22,23 @@ public class GetLetterDetailActivity extends AppCompatActivity {
     private int year, month, date, point;
     private View rootView;
     private TextView textView, dateTextView;
-    private Button deleteBtn, backBtn;
+    private Button deleteBtn;
     private LetterModel letterModel;
     private LettersData lettersData;
-    private Toolbar mToolbar;
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_letter_detail);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("");
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.letterdetail_bar);
+        toolbar.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.colorPrimary));
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("나에게서 편지가 왔어요");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
 
         msg = getIntent().getStringExtra("msg");
@@ -42,14 +50,13 @@ public class GetLetterDetailActivity extends AppCompatActivity {
         date = getIntent().getIntExtra("date",1);
 
 
-        backBtn = (Button) findViewById(R.id.backbtn);
         textView = (TextView) findViewById(R.id.get_message);
         dateTextView = (TextView) findViewById(R.id.date);
         deleteBtn = (Button) findViewById(R.id.deletebtn);
         textView.getText();
         dateTextView.getText();
         textView.setText(msg);
-        dateTextView.setText(year + "/" + (month+1) + "/" + date);
+        dateTextView.setText(year + "/" + month + "/" + date);
 
         letterModel = new LetterModel();
 
@@ -61,15 +68,6 @@ public class GetLetterDetailActivity extends AppCompatActivity {
                 letterModel.deleteLetter(userkey,key);
                 Toast.makeText(getApplicationContext(),"편지가 삭제되었습니다",Toast.LENGTH_LONG).show();
 
-            }
-        });
-
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(),GetLetterActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
             }
         });
 
@@ -93,5 +91,19 @@ public class GetLetterDetailActivity extends AppCompatActivity {
         } else {
             textView.setBackgroundResource(R.drawable.basicletter);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home: {
+                onBackPressed();
+
+                return true;
+            }
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

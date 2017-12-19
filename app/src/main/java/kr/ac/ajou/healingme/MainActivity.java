@@ -82,13 +82,8 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
             startActivity(intent);
             return true;
         } else if (id == R.id.action_customservice) {
-            Fragment fragment = new CustomServiceActivity();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container_body, fragment);
-            fragmentTransaction.commit();
-            title = getString(R.string.title_customservice);
-            getSupportActionBar().setTitle(title);
+            Intent intent=new Intent(getApplicationContext(),ServiceActivity.class);
+            startActivity(intent);
             return true;
         }
 

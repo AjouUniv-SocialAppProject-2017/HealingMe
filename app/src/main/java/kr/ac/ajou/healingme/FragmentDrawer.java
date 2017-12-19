@@ -47,6 +47,9 @@ public class FragmentDrawer extends Fragment {
     private NavigationDrawerAdapter adapter;
     private View containerView;
     private static String[] titles = null;
+    private static int[] images= {
+        R.drawable.recommendation, R.drawable.letter, R.drawable.consultation, R.drawable.hobby,R.drawable.paint
+    };     ;
     private FragmentDrawerListener drawerListener;
 
 
@@ -74,11 +77,18 @@ public class FragmentDrawer extends Fragment {
 
 
         // preparing navigation drawer items
-        for (int i = 0; i < titles.length; i++) {
+        for(int i=0;i<images.length;i++){
             NavDrawerItem navItem = new NavDrawerItem();
+            navItem.setImage(images[i]);
             navItem.setTitle(titles[i]);
             data.add(navItem);
         }
+
+      /*  for (int i = 0; i < titles.length; i++) {
+            NavDrawerItem navItem = new NavDrawerItem();
+            navItem.setTitle(titles[i]);
+            data.add(navItem);
+        }*/
         return data;
     }
 

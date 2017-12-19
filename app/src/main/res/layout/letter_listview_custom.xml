@@ -12,7 +12,6 @@
         <ImageView
             android:layout_marginLeft="10dp"
             android:id="@+id/iv_img"
-            android:background="@drawable/postbox"
             android:layout_width="45dp"
             android:layout_height="match_parent" />
 
@@ -21,7 +20,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView

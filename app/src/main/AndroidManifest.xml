@@ -29,6 +29,7 @@
         <activity android:name=".GetLetterActivity" />
         <activity android:name=".GetLetterDetailActivity" />
         <activity android:name=".SearchActivity"/>
+        <activity android:name=".ServiceActivity"/>
 
         <receiver android:name=".BroadcastD" />
 

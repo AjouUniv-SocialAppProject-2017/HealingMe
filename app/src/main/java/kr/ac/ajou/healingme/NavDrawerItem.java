@@ -1,5 +1,7 @@
 package kr.ac.ajou.healingme;
 
+import android.graphics.drawable.Drawable;
+
 /**
  * Created by Son on 2017-11-14.
  */
@@ -7,14 +9,23 @@ package kr.ac.ajou.healingme;
 public class NavDrawerItem {
     private boolean showNotify;
     private String title;
+    private int image;
 
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
+    }
 
     public NavDrawerItem() {
 
     }
 
-    public NavDrawerItem(boolean showNotify, String title) {
+    public NavDrawerItem(boolean showNotify,int image,String title) {
         this.showNotify = showNotify;
+        this.image=image;
         this.title = title;
     }
 

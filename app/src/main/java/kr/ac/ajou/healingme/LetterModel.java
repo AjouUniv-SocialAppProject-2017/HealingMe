@@ -2,7 +2,10 @@ package kr.ac.ajou.healingme;
 
 import android.graphics.drawable.Drawable;
 import android.icu.util.Calendar;
+import android.icu.util.GregorianCalendar;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -161,6 +164,7 @@ interface OnLetterChangedListener {
 }
 
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class LetterModel {
     private List<LettersData> lettersDataList = new ArrayList<>();
     private OnLetterChangedListener onLetterChangedListener;
@@ -170,10 +174,10 @@ public class LetterModel {
 
     private Calendar calendar = Calendar.getInstance();
     private int year,month,day;
-    private int daydiff;
+    private String resDaydiff;
     private Calendar Day1;
     private Calendar Day2;
-    private  long d1,d2;
+    private  long diffdays;
 
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseUser user;
@@ -227,22 +231,31 @@ public class LetterModel {
         letterRef.child(userKey).child(key).removeValue();
     }
 
-    public void updateLetter(String userKey2,String key,String message, String color, int year, int month, int date ,int daydiff,int letteryear,int lettermonth,int letterdate) {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void updateLetter(String userKey2, String key, String message, String color, int years, int months, int date , int daydiff, int letteryear, int lettermonth, int letterdate) {
 
-        Day1 = Calendar.getInstance();
-        Day2 = Calendar.getInstance();
 
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        Day1.set(year, month + 1, day);
-        d1 = Day1.getTimeInMillis();
+        Day1=new GregorianCalendar(year,month,day);
+        Day2=new GregorianCalendar(letteryear,lettermonth-1,letterdate);
+        Log.e("letterModelYEARE",letteryear+"");
+        Log.e("letterModelMONTH",lettermonth+"");
+        Log.e("letterModelDATE",letterdate+"");
 
-        Day2.set(letteryear,lettermonth,letterdate);
-        d2 = Day2.getTimeInMillis();
-        daydiff=(int)(d2-d1)/(1000*60*60*24);
-        letterRef.child(userKey).child(key).setValue(new LettersData(userKey2,key,message,color,year,month,date,daydiff,letteryear,lettermonth,letterdate));
+        diffdays=Day2.getTimeInMillis()-Day1.getTimeInMillis();
+
+        if(diffdays<0){
+            resDaydiff=Long.toString(diffdays/(1000*60*60*24));
+            daydiff= Integer.parseInt(resDaydiff);
+        }else{
+            resDaydiff=Long.toString(diffdays/(1000*60*60*24));
+            daydiff= Integer.parseInt(resDaydiff);
+        }
+
+        letterRef.child(userKey).child(key).setValue(new LettersData(userKey2,key,message,color,years,months,date,daydiff,letteryear,lettermonth,letterdate));
     }
 
 }

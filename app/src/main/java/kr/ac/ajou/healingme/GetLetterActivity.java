@@ -1,10 +1,16 @@
 package kr.ac.ajou.healingme;
 
 import android.app.AlarmManager;
+import android.app.Fragment;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.icu.util.Calendar;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -12,6 +18,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -25,55 +32,39 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class GetLetterActivity extends AppCompatActivity {
 
     private LetterModel letterModel;
 
     public static RecyclerView recyclerView;
-    private Button backBtn;
     private View rootView;
     private List<LettersData> lettersDataList = new ArrayList<>();
 
-
-    private Toolbar mToolbar;
     private OnLetterChangedListener onLetterChangedListener;
     private Calendar calendar = Calendar.getInstance();
     private int year,month,day;
     private int daydiff;
-    private Calendar Day1;
-    private Calendar Day2;
-    private  long d1,d2;
     private AlarmManager mManager;
     public static int id;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_letter);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        String title= getString(R.string.title_getletter);
 
-        getSupportActionBar().setTitle("");
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("나만의 우체통");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
         mManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-
-
-        backBtn = (Button) findViewById(R.id.backbtn);
-
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
-        });
-
 
         Intent intent = getIntent();
 
@@ -95,6 +86,7 @@ public class GetLetterActivity extends AppCompatActivity {
                         return new LetterHolder(view);
                     }
 
+                    @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onBindViewHolder(LetterHolder holder, final int position) {
                         Log.e("lettersDataList", lettersDataList.get(position).getDaydiff() + "");
@@ -150,9 +142,24 @@ public class GetLetterActivity extends AppCompatActivity {
                 });
             }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home: {
+                onBackPressed();
+
+                return true;
+            }
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
 
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 class LetterHolder extends RecyclerView.ViewHolder {
     public static ImageView letter_image;
     private TextView letter_name;
@@ -162,6 +169,7 @@ class LetterHolder extends RecyclerView.ViewHolder {
     public static int change;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public LetterHolder(View itemView) {
         super(itemView);
 
@@ -185,5 +193,10 @@ class LetterHolder extends RecyclerView.ViewHolder {
         letter_name.setText("편지가 도착하지 않았습니다");
         letter_date.setText("D-"+lettersData.getDaydiff());
     }
+
+
+
 }
+
+
 
